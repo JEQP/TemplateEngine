@@ -1,0 +1,24 @@
+{
+  "name": "templateengine",
+  "version": "1.0.0",
+  "description": "Template for HMTL generation",
+  "main": "cli.js",
+  "scripts": {
+    "test": "jest --verbose test/*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JEQP/TemplateEngine.git"
+  },
+  "keywords": [
+    "template",
+    "html",
+    "cli"
+  ],
+  "author": "James Pearce",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JEQP/TemplateEngine/issues"
+  },
+  "homepage": "https://github.com/JEQP/TemplateEngine#readme"
+}
