@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/JEQP/TemplateEngine/issues"
   },
-  "homepage": "https://github.com/JEQP/TemplateEngine#readme"
+  "homepage": "https://github.com/JEQP/TemplateEngine#readme",
+  "dependencies": {
+    "inquirer": "^7.0.3"
+  }
 }

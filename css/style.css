@@ -1,0 +1,39 @@
+.title {
+    text-align: center;
+}
+
+.manager_box{
+    display:inline-block;
+    background: transparent;
+    font-size: medium;
+    text-align: center;
+    background-color: #fa0ab2;
+    /* float: center; */
+    border: none;
+    /* resize: none; */
+    color: #000000;
+    /* border-left: 1px solid black; */
+    padding-left: 1px;
+    padding: 10px;
+    /* padding-top: 50%;
+    margin-top: -50%; */
+    width: 60%;
+    /* height: 76px; */
+    /* margin-top: -18px; */
+    /* border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%; */
+
+    border-radius: 50%;
+    margin:auto;
+    overflow: hidden;
+    
+  }
+  .container {
+      text-align: left;
+      align-content: left;
+      width: 25%;
+      margin: auto;
+  }
+  .name_title {
+      text-align: center;
+  }
