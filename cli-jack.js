@@ -5,10 +5,7 @@ const Manager = require("./lib/Manager");
 const inq = require("inquirer");
 
 // set a const empty array
-const managerTeam = [];
-const engineerTeam = [];
-const internTeam = [];
-
+const team = [];
 // The first prompt to come up, assumes Manager entered first
 const startQuestions = [{
     type: "input",
@@ -26,7 +23,7 @@ const startQuestions = [{
     type: "number",
     name: "officeNumber",
     message: "What is this manager's office number?"
-}]
+}];
 // Questions for entering an engineer
 const engineerQuestions = [{
     type: "input",
@@ -89,69 +86,111 @@ function employeeType() {
         message: "Please choose the type of employee to add:",
         choices: [
             "Engineer",
-            "Intern",
-            "No more to add"
+            "Intern"
         ]
-    }]).then(function (response) {
-        console.log("choice: " + response.choice);
-        if (response.choice === "Engineer") {
-            askEngineerQs();
-        }
-        else if (response.choice === "Intern") {
-            askInternQs();
-        }
-        else {
-            createHTML();
-        }
-    })
+    }])
+    // .catch().then(function(choice){
+    //     if (choice === "Engineer") {
+    //         askEngineerQs();
+    //     }
+    //     else if (choice === "Intern") {
+    //         askInternQs();
+    //     }
+    //     else {
+    //         return "Soz, you can't hire that guy."
+    //     }
+    // })
 }
 
-
 function askEngineerQs() {
-    inq.prompt(engineerQuestions)
+    var questionArray = engineerQuestions.map(question => inq.prompt(question));
+    Promise.all(questionArray)
         .then(function (data) {
-            console.log("engineer data: " + JSON.stringify(data));
-            engineerTeam.push(data);
-            console.log("Engineer Team: " + JSON.stringify(engineerTeam));
-            employeeType();
+            console.log("engineer data: " + data);
+
+            const addAnotherPromise = addAnother();
+            addAnotherPromise.then(function (data) {
+                if (data) {
+                    const employeeTypePromise = employeeType();
+                    employeeTypePromise.then(function (response) {
+                        if (response === "Engineer") {
+                            askEngineerQs();
+                        }
+                        else if (response === "Intern") {
+                            askInternQs();
+                        }
+                    })
+
+                }
+                else {
+                    createHTML();
+                }
+            })
         })
 }
 
 function askInternQs() {
-    inq.prompt(internQuestions)
+    var questionArray = internQuestions.map(question => inq.prompt(question));
+    Promise.all(questionArray)
         .then(function (data) {
-            console.log("intern data: " + JSON.stringify(data));
-            internTeam.push(data);
-            console.log("intern team: " + JSON.stringify(internTeam));
-            employeeType();
+            console.log("intern data: " + data);
+
+            const addAnotherPromise = addAnother();
+            addAnotherPromise.then(function (data) {
+                if (data) {
+                    const employeeTypePromise = employeeType();
+                    employeeTypePromise.then(function (response) {
+                        if (response === "Engineer") {
+                            askEngineerQs();
+                        }
+                        else if (response === "Intern") {
+                            askInternQs();
+                        }
+                    })
+
+                }
+                else {
+                    createHTML();
+                }
+            })
         })
-
 }
 
-function createHTML() {
-    console.log("creating HTML");
+function createHTML(teamArray) {
+    console.log("teamArray: " + teamArray);
 }
-
-// function createTeam() {
-//     var questionArray = startQuestions.map(question => inq.prompt(question));
-//     console.log(questionArray);
-//     managerTeam.push(questionArray);
-// }
 
 function createTeam() {
-    inq
-        .prompt(startQuestions)
+    var questionArray = startQuestions.map(question => inq.prompt(question));
+    Promise.all(questionArray)
         .then(function (data) {
-            console.log("197 createTeam: " + data);
-            managerTeam.push(data);
-            console.log("manager team: " + JSON.stringify(managerTeam));
-            employeeType();
-        });
+            console.log("start data: " + data);
+
+            const addAnotherPromise = addAnother();
+            addAnotherPromise.then(function (data) {
+                if (data) {
+                    const employeeTypePromise = employeeType();
+                    employeeTypePromise.then(function (response) {
+                        if (response === "Engineer") {
+                            askEngineerQs();
+                        }
+                        else if (response === "Intern") {
+                            askInternQs();
+                        }
+                    })
+
+                }
+                else {
+                    createHTML();
+                }
+            })
+
+        })
 }
 
 function init() {
-    createTeam();
-    // testStartQuestions();
+    // createTeam();
+    testStartQuestions();
 }
 
 function testStartQuestions() {
@@ -174,16 +213,16 @@ function testStartQuestions() {
 
             const addAnotherPromise = addAnother();
             addAnotherPromise
-                .then(function (data) {
-                    if (data) {
-                        console.log("answer: " + data);
-                        console.log("qArray: " + questionArray);
-                    }
-                    else {
-                        console.log("answer: " + data);
-                        console.log("qArray: " + questionArray);
-                    }
-                })
+            .then(function(data){
+                if(data){
+                    console.log("answer: " + data);
+                    console.log("qArray: " + questionArray);
+                }
+                else {
+                    console.log("answer: " + data);
+                    console.log("qArray: " + questionArray);
+                }
+            })
         }).catch(console.log(error));
 
 
