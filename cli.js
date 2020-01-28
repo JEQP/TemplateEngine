@@ -3,6 +3,11 @@ const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const Manager = require("./lib/Manager");
 const inq = require("inquirer");
+const fs = require("fs");
+const HTMLpage = require("./lib/TeamHTML");
+const hparse = require("node-html-parser");
+
+
 
 // set a const empty array
 const managerTeam = [];
@@ -65,23 +70,6 @@ const internQuestions = [{
 }];
 
 
-function addAnother() {
-    inq.prompt([{
-        type: "confirm",
-        name: "repeat",
-        message: "Would you like to add an employee?"
-    }])
-    // .catch().then(function (repeat) {
-    //     if (repeat) {
-    //         employeeType();
-    //     }
-    //     else {
-    //         createHTML();
-    //     }
-    // })
-
-}
-
 function employeeType() {
     inq.prompt([{
         type: "list",
@@ -128,15 +116,7 @@ function askInternQs() {
 
 }
 
-function createHTML() {
-    console.log("creating HTML");
-}
 
-// function createTeam() {
-//     var questionArray = startQuestions.map(question => inq.prompt(question));
-//     console.log(questionArray);
-//     managerTeam.push(questionArray);
-// }
 
 function createTeam() {
     inq
@@ -149,181 +129,60 @@ function createTeam() {
         });
 }
 
+function createHTML() {
+    console.log("creating HTML");
+    
+    fs.readFile('./lib/main.html', 'utf8', (err,html) =>{
+        if(err) {
+            throw err;
+        }
+        // console.log("html: " + html);        // const root = parse(html);
+        var testbody = html.toString();
+        console.log("testbody: " + testbody);
+        
+        const body = hparse.parse(testbody, {style: true});
+        console.log("body: " + body);
+        const loc = body.querySelector("#manager_slot");
+        console.log("loc: " + loc);
+        console.log("loc to string: " + loc.toString());
+        loc.appendChild(HTMLpage.manager(managerTeam));
+
+        // var insert = hparse.parse(HTMLpage.manager(managerTeam));
+        // console.log("insert: " + insert.toString());
+        // var body = hparse.parse(html);
+        // console.log("body init: " + body);
+        // var loc = body.querySelector("#manager_slot");
+        // console.log("body query: " + body);
+        
+        // console.log("body append: " + body);
+        fs.writeFile("./teampage.html", body, function (err) {
+            if (err) {
+                return console.log(err);
+            }
+        });
+
+        
+    });
+}
+
+//create html template
+
+// create new manager, append manager
+
+// loop through engineer array, create new engineers, append them
+
+// loop through intern array, append them
+
+// save document
+
+
+
+
+
 function init() {
     createTeam();
-    // testStartQuestions();
 }
 
-function testStartQuestions() {
-    console.log("running testStartQuestions");
 
-    // Attempt A
-
-    //     inq.prompt(startQuestions).then(function(x){
-    //        await Promise.all(x)
-    // })
-    // .then(result => console.log(result));
-
-
-    //Attempt B - I've tried this without const AddAnotherPromise, to much the same effect
-
-    var questionArray = startQuestions.map(question => inq.prompt(question));
-    Promise.all(questionArray)
-        .then(function (data) {
-            console.log("data ln 208: " + data);
-
-            const addAnotherPromise = addAnother();
-            addAnotherPromise
-                .then(function (data) {
-                    if (data) {
-                        console.log("answer: " + data);
-                        console.log("qArray: " + questionArray);
-                    }
-                    else {
-                        console.log("answer: " + data);
-                        console.log("qArray: " + questionArray);
-                    }
-                })
-        }).catch(console.log(error));
-
-
-    // Attempt C
-
-    // var questionArray = startQuestions.map(question => inq.prompt(startQuestions[question]));
-    // Promise.all(questionArray)
-    // .then(function(data){
-    //     console.log("data ln 208: " + data);
-    // })
-
-    // var questionArray = await startQuestions.map(function(question) {
-    //     console.log("question: " + question);
-    //     inq.prompt(question);
-    // });
-
-    // console.log("questionArray: " + questionArray);
-}
 
 init();
-
-// Prompt user to create an Engineering Team. Add Manager, input Manager Name
-// function createTeam() {
-//     inq.prompt(startQuestions, function (anwers) {
-//         team.push(answers);
-//         console.log("team 68: " + team);
-//     }).catch()
-//         // Ask if another team member is desired
-//         .then(function () {
-//             inq.prompt([{
-//                 type: "confirm",
-//                 name: "repeat",
-//                 message: "Would you like to add an employee?"
-//             }])
-
-
-//         // WORK OUT HOW TO LINK REPEAT TO THE NEXT FUNCTION, THIS DOESN'T WORK
-//         // this will loop through the options until repeat is negative
-//         .then(function () {
-
-//         //change while loop to a question calling the function it is in
-//             while (repeat) {
-//                 inq.prompt([{
-//                     type: "list",
-//                     name: "choice",
-//                     message: "Please choose the type of employee to add:",
-//                     choices: [
-//                         "Engineer",
-//                         "Intern"
-//                     ]
-//                 }])
-//                 .then(function(data){
-
-
-//                     var promises = [];
-
-//                     if (data.choice === "Engineer") {
-//                         promises.push(
-//                         inq.prompt(engineerQuestions, function (answers) {
-//                             team.push(answers);
-//                             console.log("team 95: " + team);
-//                         }))
-//                     }
-//                     else {
-//                         promises.push(
-//                         inq.prompt(internQuestions, function (answers) {
-//                             team.push(answers);
-//                             console.log("team 101: " + team);
-//                         }))
-
-
-//                     }
-
-//                     promises.push(
-//                         inq.prompt([{
-//                             type: "confirm",
-//                             name: "repeat",
-//                             message: "Would you like to add an employee?"
-//                         }]));
-
-//                     Promise.all(promises)
-//                         .then(function(response) {
-//                             console.log("All responses ", response)
-//                         })
-//                 })
-
-//             }
-
-//         }).catch()
-//         .then(function(){
-//             console.log("team 114: " + team);
-//             console.log("start create html");
-//         })
-//     }).catch()
-// }
-
-// function init(){
-//     createTeam();
-// }
-
-// init();
-
-// inq Manager ID
-
-// inq Manager Email
-
-// inq Manager officeNumber
-
-// add to array
-
-//// Loop starts here
-
-// inq would you like to add an employee?
-
-// if yes
-
-// inq which employee would you like to add? MENU
-
-//// if Engineer 
-
-//// inq Engineer name
-
-//// inq Engineer ID
-
-//// inq Engineer Email
-
-//// inq Engineer Github
-
-//// else if Intern
-
-//// inq Intern name
-
-//// inq Intern ID
-
-//// inq Intern email
-
-//// inq Intern School
-
-//// add response to array (possibly via a second const array)
-
-//// Loop ends here
-
-// if no move to creating HTML
