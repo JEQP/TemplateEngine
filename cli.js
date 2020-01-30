@@ -146,6 +146,15 @@ function createHTML() {
         console.log("loc: " + loc);
         console.log("loc to string: " + loc.toString());
         loc.appendChild(HTMLpage.manager(managerTeam));
+        console.log("eng team: " + engineerTeam.toString());
+        const locEng = body.querySelector("#engineer_slot");
+        engineerTeam.forEach(element => {
+            locEng.appendChild(HTMLpage.engineer(element));
+        });
+        const locInt = body.querySelector("#intern_slot")
+        internTeam.forEach(element => {
+            locInt.appendChild(HTMLpage.intern(element));
+        });
 
         // var insert = hparse.parse(HTMLpage.manager(managerTeam));
         // console.log("insert: " + insert.toString());
