@@ -7,7 +7,29 @@ const fs = require("fs");
 const HTMLpage = require("./lib/TeamHTML");
 const hparse = require("node-html-parser");
 
+// validate email
+// split string at @, only one split
+// confirm both strings contain alphanumeric, and period
+// join strings, return that
+function validateEmail(email1){
+    var isValid = false;
+    console.log("email entered: " + email1);
+    var eValid = email1.split("@", 2);
+    console.log("email: " + eValid[0] + " " + eValid[1]);
+    if (/[A-Za-z1-9/.]/gi.test(eValid[0]) && /[A-Za-z1-9/.]/gi.test(eValid[1])) {
+        isValid = true;
+    }
+    return isValid || "Please enter a valid e-mail"
+}
 
+function validateID(id1)
+{
+   var isValid = !isNaN(parseFloat(id1));
+   if (isNaN(parseFloat(id1))){
+       id1 = "";
+   }
+   return isValid || "Only numbers allowed in ID";
+}
 
 // set a const empty array
 const managerTeam = [];
@@ -22,11 +44,13 @@ const startQuestions = [{
 }, {
     type: "number",
     name: "id1",
-    message: "What is this manager's ID?"
+    message: "What is this manager's ID?",
+    // validate: validateID
 }, {
     type: "input",
     name: "email1",
-    message: "What is this manager's e-mail address?"
+    message: "What is this manager's e-mail address?",
+    // validate: validateEmail
 }, {
     type: "number",
     name: "officeNumber",
@@ -138,15 +162,18 @@ function createHTML() {
         }
         // console.log("html: " + html);        // const root = parse(html);
         var testbody = html.toString();
-        console.log("testbody: " + testbody);
+        // console.log("testbody: " + testbody);
         
         const body = hparse.parse(testbody, {style: true});
-        console.log("body: " + body);
+        // console.log("body: " + body);
+        const headerLoc = body.querySelector("#title_slot");
+        headerLoc.appendChild(HTMLpage.title(managerTeam));
+
         const loc = body.querySelector("#manager_slot");
-        console.log("loc: " + loc);
-        console.log("loc to string: " + loc.toString());
+        // console.log("loc: " + loc);
+        // console.log("loc to string: " + loc.toString());
         loc.appendChild(HTMLpage.manager(managerTeam));
-        console.log("eng team: " + engineerTeam.toString());
+        // console.log("eng team: " + engineerTeam.toString());
         const locEng = body.querySelector("#engineer_slot");
         engineerTeam.forEach(element => {
             locEng.appendChild(HTMLpage.engineer(element));
@@ -156,14 +183,6 @@ function createHTML() {
             locInt.appendChild(HTMLpage.intern(element));
         });
 
-        // var insert = hparse.parse(HTMLpage.manager(managerTeam));
-        // console.log("insert: " + insert.toString());
-        // var body = hparse.parse(html);
-        // console.log("body init: " + body);
-        // var loc = body.querySelector("#manager_slot");
-        // console.log("body query: " + body);
-        
-        // console.log("body append: " + body);
         fs.writeFile("./teampage.html", body, function (err) {
             if (err) {
                 return console.log(err);
