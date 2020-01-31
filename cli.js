@@ -183,7 +183,7 @@ function createHTML() {
             locInt.appendChild(HTMLpage.intern(element));
         });
 
-        fs.writeFile("./teampage.html", body, function (err) {
+        fs.writeFile("./output/teampage.html", body, function (err) {
             if (err) {
                 return console.log(err);
             }
