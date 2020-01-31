@@ -174,11 +174,11 @@ function createHTML() {
         // console.log("loc to string: " + loc.toString());
         loc.appendChild(HTMLpage.manager(managerTeam));
         // console.log("eng team: " + engineerTeam.toString());
-        const locEng = body.querySelector("#engineer_slot");
+        const locEng = body.querySelector(".engineer_col");
         engineerTeam.forEach(element => {
             locEng.appendChild(HTMLpage.engineer(element));
         });
-        const locInt = body.querySelector("#intern_slot")
+        const locInt = body.querySelector(".intern_col")
         internTeam.forEach(element => {
             locInt.appendChild(HTMLpage.intern(element));
         });
