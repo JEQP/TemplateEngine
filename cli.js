@@ -182,8 +182,10 @@ function createHTML() {
         internTeam.forEach(element => {
             locInt.appendChild(HTMLpage.intern(element));
         });
+ 
 
-        fs.writeFile("./output/teampage.html", body, function (err) {
+        var outputfile = "./output/"+managerTeam[0].name1+"team.html";
+        fs.writeFile(`${outputfile}`, body, function (err) {
             if (err) {
                 return console.log(err);
             }
