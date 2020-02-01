@@ -83,7 +83,6 @@ const internQuestions = [{
 function validateName(name1) {
     const inputName = name1;
     const nameRegex = /^(?=.*?[a-zA-Z\s])[a-zA-Z\s]+$/
-    // const nameRegex = /^(?=.*?[a-zA-Z])[a-zA-Z0-9!@#$-_%&]+$/
     const nameResult = nameRegex.test(inputName);
     if (nameResult) {
         return true;
@@ -163,8 +162,6 @@ function askManagerQs() {
     inq.prompt(managerQuestions).then(answers => {
         const manager = new Manager(answers.name1, answers.id1, answers.email1, answers.officeNumber);
         teamMembers.push(manager);
-        //   idArray.push(answers.managerId);
-        //   buildTeam();
         employeeType();
     });
     
@@ -196,12 +193,9 @@ function createHTML() {
         if (err) {
             throw err;
         }
-        // console.log("html: " + html);        // const root = parse(html);
         var testbody = html.toString();
-        // console.log("testbody: " + testbody);
 
         const body = hparse.parse(testbody, { style: true });
-        // console.log("body: " + body);
         const headerLoc = body.querySelector("#title_slot");
         headerLoc.appendChild(HTMLpage.title(teamMembers[0]));
 
@@ -221,7 +215,7 @@ function createHTML() {
         })
 
         var outputfile = "./output/" + teamMembers[0].name + "team.html";
-        console.log("output: " + outputfile);
+        console.log("Saving file as: " + outputfile);
         fs.writeFile(`${outputfile}`, body, function (err) {
             if (err) {
                 return console.log(err);
