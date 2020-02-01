@@ -14,60 +14,121 @@ const teamMembers = [];
 const managerQuestions = [{
     type: "input",
     name: "name1",
-    message: "What is the Team Manager's name?"
+    message: "What is the Team Manager's name?",
+    validate: validateName
 }, {
-    type: "number",
+    type: "input",
     name: "id1",
     message: "What is this manager's ID?",
-    // validate: validateID
+    validate: validateID
 }, {
     type: "input",
     name: "email1",
     message: "What is this manager's e-mail address?",
-    // validate: validateEmail
+    validate: validateEmail
 }, {
-    type: "number",
+    type: "input",
     name: "officeNumber",
-    message: "What is this manager's office number?"
+    message: "What is this manager's office number?",
+    validate: validateID
 }]
 // Questions for entering an engineer
 const engineerQuestions = [{
     type: "input",
     name: "name1",
-    message: "What is this engineer's name?"
+    message: "What is this engineer's name?",
+    validate: validateName
 }, {
-    type: "number",
+    type: "input",
     name: "id1",
-    message: "What is this engineer's ID?"
+    message: "What is this engineer's ID?",
+    validate: validateID
 }, {
     type: "input",
     name: "email1",
-    message: "What is this engineer's e-mail address?"
+    message: "What is this engineer's e-mail address?",
+    validate: validateEmail
 }, {
     type: "input",
     name: "GitHubUser",
-    message: "What is this engineer's Github username?"
+    message: "What is this engineer's Github username?",
+    validate: validateGithub
 }];
 // Questions for entering an intern
 const internQuestions = [{
     type: "input",
     name: "name1",
-    message: "What is this intern's name?"
+    message: "What is this intern's name?",
+    validate: validateName
+    
 }, {
-    type: "number",
+    type: "input",
     name: "id1",
-    message: "What is this interns's ID?"
+    message: "What is this interns's ID?",
+    validate: validateID
 }, {
     type: "input",
     name: "email1",
-    message: "What is this interns's e-mail address?"
+    message: "What is this intern's e-mail address?",
+    validate: validateEmail
 }, {
     type: "input",
     name: "school",
-    message: "What is this intern's school?"
+    message: "What is this intern's school?",
+    validate: validateName
 }];
 
 // FUNCTIONS
+
+function validateName(name1) {
+    const inputName = name1;
+    const nameRegex = /^(?=.*?[a-zA-Z])[a-zA-Z]+$/
+    const nameResult = nameRegex.test(inputName);
+    if (nameResult) {
+        return true;
+    }
+    else {
+        console.log("Names require letters.");
+    }
+}
+
+function validateID(id1) {
+        const inputNum = id1;
+        const numRegex = /^(?=.*?[0-9])[0-9]+$/
+        const numResult = numRegex.test(inputNum);
+        if (numResult) {
+            return true;
+        }
+        else {
+            console.log("Only numbers, my dude.");
+        }
+    }
+
+    function validateEmail(email1) {
+        const inputEmail = email1;
+        const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/
+        const emailResult = emailRegex.test(inputEmail);
+        if (emailResult) {
+            return true;
+        }
+        else {
+            console.log("We need a valid e-mail, you know what that looks like.");
+        }
+    }
+
+    function validateGithub(GitHubUser) {
+        const inputGH = GitHubUser;
+        const GHRegex = /^(?=.*?[-a-zA-Z0-9])[-a-zA-Z0-9]+$/
+        const GHResult = GHRegex.test(inputGH);
+        if (GHResult) {
+            return true;
+        }
+        else {
+            console.log("We need a valid Github username, or admit you're not a real engineer.")
+        }
+    }
+
+
 
 function employeeType() {
     inq.prompt([{
