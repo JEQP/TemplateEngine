@@ -82,7 +82,8 @@ const internQuestions = [{
 
 function validateName(name1) {
     const inputName = name1;
-    const nameRegex = /^(?=.*?[a-zA-Z])[a-zA-Z]+$/
+    const nameRegex = /^(?=.*?[a-zA-Z\s])[a-zA-Z\s]+$/
+    // const nameRegex = /^(?=.*?[a-zA-Z])[a-zA-Z0-9!@#$-_%&]+$/
     const nameResult = nameRegex.test(inputName);
     if (nameResult) {
         return true;
@@ -206,7 +207,7 @@ function createHTML() {
 
         teamMembers.forEach(item => {
             if (item.getRole() === "Manager") {
-                const loc = body.querySelector("#manager_slot");
+                const loc = body.querySelector(".manager_col");
                 loc.appendChild(HTMLpage.manager(item));
             }
             else if (item.getRole() === "Engineer") {
