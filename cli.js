@@ -178,7 +178,7 @@ function createHTML() {
         engineerTeam.forEach(element => {
             locEng.appendChild(HTMLpage.engineer(element));
         });
-        const locInt = body.querySelector(".intern_col")
+        const locInt = body.querySelector(".intern_col");
         internTeam.forEach(element => {
             locInt.appendChild(HTMLpage.intern(element));
         });
